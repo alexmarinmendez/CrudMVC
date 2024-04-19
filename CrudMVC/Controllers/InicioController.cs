@@ -69,6 +69,23 @@ namespace CrudMVC.Controllers
             return View();
         }
 
+        [HttpGet]
+        public IActionResult Detalle(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contacto = _context.Contacto.Find(id);
+            if (contacto == null)
+            {
+                return NotFound();  
+            }
+
+            return View(contacto);
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
