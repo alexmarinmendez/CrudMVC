@@ -86,6 +86,38 @@ namespace CrudMVC.Controllers
             return View(contacto);
         }
 
+        [HttpGet]
+        public IActionResult Borrar(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var contacto = _context.Contacto.Find(id);
+            if (contacto == null)
+            {
+                return NotFound();
+            }
+
+            return View(contacto);  
+        }
+
+        [HttpPost, ActionName("Borrar")]
+        public async Task<IActionResult> BorrarContacto(int? id)
+        {
+            var contacto = await _context.Contacto.FindAsync(id);
+            if (contacto == null)
+            {
+                return View();
+            }
+
+            //Borrado
+            _context.Contacto.Remove(contacto);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
